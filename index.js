@@ -34,17 +34,20 @@ app.get('/', (req, res) => {
 //connecting to socket.io
 io.on('connection', (socket) => {
 
-  console.log('user connected');
-  console.log('Id', socket.id);
+  // console.log('user connected');
+  // console.log('Id', socket.id);
   
   // emit to sent message from server to client
   socket.emit('welcome', 'welcome to the server');
+  socket.broadcast.emit(`${socket.id} join the chat`)
   
   //function to get data or text from the client
   socket.on('send-message',(data)=>{
-    console.log(data);
+    // console.log(data);
     //sending it to the client
-    socket.emit('receive-message', data)
+    // socket.broadcast.emit('receive-message', data)
+    //to sent the text to specific client by room number
+    io.to(data.room).emit('receive-message',data.message)
   })
   //broadcast to sent message from server to client except one user
   socket.broadcast.emit('welcome', `${socket.id} join the server`);
