@@ -51,7 +51,9 @@ io.on('connection', (socket) => {
   })
   //broadcast to sent message from server to client except one user
   socket.broadcast.emit('welcome', `${socket.id} join the server`);
+  
 
+  //function to sent message to client user using room code or room that user created
   socket.on('join-room',(room)=>{
     socket.join(room);
     console.log(`User joined room ${room}`)
